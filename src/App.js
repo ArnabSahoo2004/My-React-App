@@ -23,6 +23,8 @@ function App() {
 
   const onDelete = (todo) => {
     console.log("I am ondelete of todo", todo);
+
+  
     // Deleting this way in react does not work
     // let index = todos.indexOf(todo);
     // todos.splice(index, 1);
@@ -32,6 +34,18 @@ function App() {
     }));
     console.log("deleted", todos)
     localStorage.setItem("todos", JSON.stringify(todos));
+  }
+
+  const onEdit = (todo) => {
+    console.log("I am onEdit of todo", todo);
+    const newTitle = prompt("Edit Title", todo.title);
+    const newDesc = prompt("Edit Description", todo.desc);
+    if (newTitle && newDesc) {
+      setTodos(todos.map(t => 
+        t.sno === todo.sno ? { ...t, title: newTitle, desc: newDesc } : t
+      ));
+      localStorage.setItem("todos", JSON.stringify(todos));
+    }
   }
 
   const addTodo = (title, desc) => {
@@ -66,7 +80,7 @@ function App() {
             return(
             <>
             <AddTodo addTodo={addTodo} />
-            <Todos todos={todos} onDelete={onDelete} /> 
+            <Todos todos={todos} onDelete={onDelete} onEdit={onEdit} /> 
             </>)
           }}> 
           </Route>
